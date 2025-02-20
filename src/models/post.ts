@@ -10,8 +10,8 @@ const postSchema = new mongoose.Schema({
         required: true
     },
     creationDate: {
-        type: Date,
-        default: Date.now // תאריך יצירת הפוסט
+        type: String,
+        required: true // תאריך יצירת הפוסט
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,

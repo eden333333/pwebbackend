@@ -1,5 +1,5 @@
 import User from "../models/user";
-
+import jsonwebtoken from 'jsonwebtoken'
 // פונקציה שמחזירה את כל המשתמשים
 const getUsers = async (req, res) => {
     try {
@@ -69,8 +69,15 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email, password });
-        if (!user) return res.status(401).json({ error: "Invalid email or password" });
-        return res.json(user);
+        if (!user) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+        else{
+            const token = jsonwebtoken.sign({ email:user.email, id:user._id},process.env.JWT_SECRET , {expiresIn: "3h"});
+            const {password, ...userToReact} = user
+            return res.json({user: userToReact._doc, token});
+        }
+       
     } catch (error) {
         return res.status(500).json({ error: "Error during login", details: error.message });
     }
