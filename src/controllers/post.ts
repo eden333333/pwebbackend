@@ -3,7 +3,8 @@ import Post from "../models/post";
 // פונקציה שמחזירה את כל הפוסטים
 const getPosts = async (req, res) => {
     try {
-        const posts = await Post.find();
+        const posts = await Post.find().populate('user');
+        // TODO add the user who created the post
         if (!posts) return res.json([]);
         return res.json(posts);
     } catch (error) {

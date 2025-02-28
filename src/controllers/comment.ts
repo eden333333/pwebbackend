@@ -1,9 +1,17 @@
+import { log } from "console";
 import Comment from "../models/comment";
+import post from "./post";
+import mongoose from "mongoose";
 
 // פונקציה שמחזירה את כל התגובות
 const getComments = async (req, res) => {
     try {
-        const comments = await Comment.find();
+        const {postId} = req.query;
+        const where:{postId?:mongoose.Types.ObjectId} = {};
+        if(postId) 
+            where.postId = new mongoose.Types.ObjectId(postId);
+        console.log('where',where);
+        const comments = await Comment.find(where);
         return res.json(comments);
     } catch (error) {
         return res.status(500).json({ error: "Error fetching comments", details: error.message });

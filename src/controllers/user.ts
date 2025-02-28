@@ -1,5 +1,7 @@
+import { log } from "console";
 import User from "../models/user";
 import jsonwebtoken from 'jsonwebtoken'
+import mongoose from "mongoose";
 // פונקציה שמחזירה את כל המשתמשים
 const getUsers = async (req, res) => {
     try {
@@ -74,8 +76,9 @@ const login = async (req, res) => {
         }
         else{
             const token = jsonwebtoken.sign({ email:user.email, id:user._id},process.env.JWT_SECRET , {expiresIn: "3h"});
-            const {password, ...userToReact} = user
-            return res.json({user: userToReact._doc, token});
+            const {password, ...userToReact} = user.toObject();
+            
+            return res.json({user: userToReact, token});
         }
        
     } catch (error) {

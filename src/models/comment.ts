@@ -10,10 +10,6 @@ const commentSchema = new mongoose.Schema({
         ref: "Post", // קישור למודל הפוסט
         required: true
     },
-    name: {
-        type: String,
-        required: true
-    },
     comment: {
         type: String,
         required: true
