@@ -1,4 +1,6 @@
 import Post from "../models/post";
+import Comment from "../models/comment";
+import mongoose from "mongoose";
 
 // פונקציה שמחזירה את כל הפוסטים
 const getPosts = async (req, res) => {
@@ -28,6 +30,7 @@ const getPostById = async (req, res) => {
 const deletePost = async (req, res) => {
     try {
         const { id } = req.params;
+        await Comment.deleteMany({postId:id});
         const deletedPost = await Post.findByIdAndDelete(id);
         if (!deletedPost) return res.status(404).json({ error: "Post not found" });
         return res.json({ message: "Post deleted successfully" });
