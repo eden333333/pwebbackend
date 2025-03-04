@@ -11,7 +11,7 @@ const getComments = async (req, res) => {
         if(postId) 
             where.postId = new mongoose.Types.ObjectId(postId);
         console.log('where',where);
-        const comments = await Comment.find(where);
+        const comments = await Comment.find(where).populate('user');
         return res.json(comments);
     } catch (error) {
         return res.status(500).json({ error: "Error fetching comments", details: error.message });
