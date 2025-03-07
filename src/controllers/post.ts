@@ -1,6 +1,7 @@
 import Post from "../models/post";
 import Comment from "../models/comment";
 import mongoose from "mongoose";
+import { request } from "http";
 
 // פונקציה שמחזירה את כל הפוסטים
 const getPosts = async (req, res) => {
@@ -25,7 +26,30 @@ const getPostById = async (req, res) => {
         return res.status(500).json({ error: "Error fetching post", details: error.message });
     }
 };
-
+const addLike = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const post = await Post.findById(id);
+        if (!post) return res.status(404).json({ error: "Post not found" });
+        post.likes.push(req.user.id);
+        await post.save();
+        return res.json(post);
+    } catch (error) {
+        return res.status(500).json({ error: "Error fetching post", details: error.message });
+    }
+};
+const removeLike = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const post = await Post.findById(id);
+        if (!post) return res.status(404).json({ error: "Post not found" });
+        post.likes= post.likes.filter(like => like != req.user.id);
+        await post.save();
+        return res.json(post);
+    } catch (error) {
+        return res.status(500).json({ error: "Error fetching post", details: error.message });
+    }
+};
 // פונקציה שמוחקת פוסט לפי ID
 const deletePost = async (req, res) => {
     try {
@@ -68,4 +92,4 @@ const addPost = async (req, res) => {
     }
 };
 
-export default { getPosts, getPostById, deletePost, updatePost, addPost };
+export default { getPosts, getPostById, deletePost, updatePost, addPost, addLike, removeLike };

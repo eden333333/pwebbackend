@@ -17,7 +17,16 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User", // קישור למודל המשתמש
         required: true
-    }
+    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User", // קישור למודל המשתמש
+        
+
+    
+
+
+    }]
 });
 
 const Post = mongoose.model('Post', postSchema);
