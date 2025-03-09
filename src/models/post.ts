@@ -13,6 +13,9 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true // תאריך יצירת הפוסט
     },
+    image:{
+        type:String
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User", // קישור למודל המשתמש
@@ -21,11 +24,6 @@ const postSchema = new mongoose.Schema({
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User", // קישור למודל המשתמש
-        
-
-    
-
-
     }]
 });
 

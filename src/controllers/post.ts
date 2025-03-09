@@ -65,12 +65,18 @@ const deletePost = async (req, res) => {
 
 // פונקציה שמעדכנת פוסט לפי ID
 const updatePost = async (req, res) => {
+    let image;
     try {
         const { id } = req.params;
         const { content, creationDate, user } = req.body;
+    
+        const dataUpdate:{content:string, creationDate:string, user:string, image?:string} = { content, creationDate, user }
+        if(req.filename){
+            dataUpdate.image = req.filename;
+        }
         const updatedPost = await Post.findByIdAndUpdate(
             { _id: id },
-            { content, creationDate, user },
+            dataUpdate,
             { new: true }
         );
         if (!updatedPost) return res.status(404).json({ error: "Post not found" });
@@ -84,7 +90,8 @@ const updatePost = async (req, res) => {
 const addPost = async (req, res) => {
     try {
         const { content, creationDate, user } = req.body;
-        const post = new Post({ content, creationDate, user });
+        const image = req.filename;
+        const post = new Post({ content, creationDate, user, image });
         await post.save();
         return res.json(post);
     } catch (error) {

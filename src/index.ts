@@ -7,6 +7,7 @@ import postRoute from './routes/post';
 import commentRoute from './routes/comment';
 import authRoute from './routes/auth';
 import validateToken from './middleware/validateToken';
+import path from 'path'
 
 
 dotenv.config();
@@ -19,6 +20,9 @@ mongoose.connect(uri, ).then(() => {}
 
 app.use(cors());
 app.use(express.json());
+
+const uploadDir = path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadDir));
 // app.get('/', (req, res) => {
 //   res.send('Hello World!');
 // });
