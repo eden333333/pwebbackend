@@ -21,7 +21,7 @@ mongoose.connect(uri, ).then(() => {}
 app.use(cors());
 app.use(express.json());
 
-const uploadDir = path.join(__dirname, 'uploads');
+const uploadDir = path.join(process.cwd(), 'uploads');
 app.use('/uploads', express.static(uploadDir));
 // app.get('/', (req, res) => {
 //   res.send('Hello World!');

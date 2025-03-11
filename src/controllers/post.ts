@@ -68,12 +68,17 @@ const updatePost = async (req, res) => {
     let image;
     try {
         const { id } = req.params;
-        const { content, creationDate, user } = req.body;
+        const { content, creationDate, user, image } = req.body;
     
         const dataUpdate:{content:string, creationDate:string, user:string, image?:string} = { content, creationDate, user }
         if(req.filename){
             dataUpdate.image = req.filename;
         }
+        if(image && image == '-'){
+            dataUpdate['$unset'] = {image:''}
+        }
+        console.log(dataUpdate, image);
+        
         const updatedPost = await Post.findByIdAndUpdate(
             { _id: id },
             dataUpdate,

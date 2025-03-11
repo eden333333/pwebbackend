@@ -9,7 +9,7 @@ router.get('/:id', postController.getPostById);      // /475ry3ere
 router.post('/:id/like', postController.addLike);
 router.delete('/:id/like', postController.removeLike);
 router.delete('/:id', postController.deletePost);       
-router.put('/:id', upload.single("file"), postController.updatePost);
-router.post('/', upload.single("file"), postController.addPost);
+router.put('/:id', upload.single("image"), postController.updatePost);
+router.post('/', upload.single("image"), postController.addPost);
 
 export default router;

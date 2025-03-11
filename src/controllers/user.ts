@@ -39,12 +39,16 @@ const deleteUser = async (req, res) => {
 
 // פונקציה שמעדכנת משתמש לפי ID
 const updateUser = async (req, res) => {
+    let image;
     try {
         const { id } = req.params;
         const { firstName, lastName, birthDate, email, password } = req.body;
+        if(req.filename){
+            image = req.filename;
+        }
         const updatedUser = await User.findByIdAndUpdate(
             { _id: id },
-            { firstName, lastName, birthDate, email, password },
+            { firstName, lastName, birthDate, email, password, image },
             { new: true }
         );
         if (!updatedUser) return res.status(404).json({ error: "User not found" });
