@@ -7,7 +7,8 @@ import postRoute from './routes/post';
 import commentRoute from './routes/comment';
 import authRoute from './routes/auth';
 import validateToken from './middleware/validateToken';
-import path from 'path'
+import path from 'path';
+import {addSwagger} from './middleware/swagger-configuration';
 
 
 dotenv.config();
@@ -23,9 +24,7 @@ app.use(express.json());
 
 const uploadDir = path.join(process.cwd(), 'uploads');
 app.use('/uploads', express.static(uploadDir));
-// app.get('/', (req, res) => {
-//   res.send('Hello World!');
-// });
+addSwagger(app);
 app.use('/api/auth', authRoute);
 app.use('/api/users', validateToken, userRoute);
 app.use('/api/posts', validateToken,postRoute);
