@@ -45,7 +45,7 @@ router.post('/login', userController.login);
  *           schema:
  *              $ref: "#/components/schemas/User"
  *     responses:
- *       200:
+ *       201:
  *         description: Successfully logged in
  *         content:
  *           application/json:

@@ -10,7 +10,7 @@ const options = {
             description: "A complex express library for vacations posts"
         },
         servers: [
-            { url: "http://localhost:5500" }
+            { url: "http://localhost:5000" }
         ],
         components: {
             schemas: {
@@ -22,11 +22,22 @@ const options = {
                         password: { type: "string", example: "12345" },
                     }
                 },
+                Comment:{
+                    type:"object",
+                    required:[],
+                    properties:{
+                        _id: { type: "string", example: "64f5b3c7e4b08c1234567890" },
+                        postId: { type: "string", example: "64f5b3c7e4b08c1234567890" },
+                        comment: { type: "string", example: "I like the post" },
+                        createdAt: { type: "datetime", example: "2025-03-12T11:26:00" },
+                        user: { type: "string", example: "64f5b3c7e4b08c1234567890" },
+                    }
+                },
                 User: {
                     type: "object",
                     required: ["firstName", "lastName", "email", "password"],
                     properties: {
-                        id: { type: "string", example: "64f5b3c7e4b08c1234567890" },
+                        _id: { type: "string", example: "64f5b3c7e4b08c1234567890" },
                         firstName: { type: "string", example: "John" },
                         lastName: { type: "string", example: "Doe" },
                         email: { type: "string", example: "john@example.com" },
