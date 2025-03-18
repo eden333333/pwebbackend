@@ -6,7 +6,7 @@ const validateToken = (req, res, next) => {
     if (!tokenHeader) return res.status(401).json({ error: "Access denied. No token provided." });
     
     const tokenArr = tokenHeader.split(' ');
-    if(tokenArr.length !== 2) return res.status(400).json({ error: "Invalid token" });
+    if(tokenArr.length !== 2) return res.status(401).json({ error: "Invalid token" });
     try {
         const token = tokenArr[1];
         const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);

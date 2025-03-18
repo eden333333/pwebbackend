@@ -5,8 +5,8 @@ const router = express.Router();
 /**
  * @swagger
  * tags:
- *  - name: comments
- *    description: commnents for a post
+ *   - name: comments
+ *     description: commnents for a post
  */
 
 /**
@@ -16,27 +16,35 @@ const router = express.Router();
  *     summary: get comments
  *     description: get all comments. /api/comments?postId=64f5b3c7e4b08c1234567890&count=true
  *     parameters:
- *      - in: query
- *        name: postId
- *        schema:
- *          type: string
- *      - in: query
- *        name: count
- *        schema:
- *          type: string
-
+ *       - in: query
+ *         name: postId
+ *         schema:
+ *           type: string
+ *         description: The ID of the post to retrieve comments for.
+ *         required: false
+ *       - in: query
+ *         name: count
+ *         schema:
+ *           type: boolean
+ *         description: If true, returns the count of comments instead of the comments themselves.
+ *         required: false
+ *    security:
+ *      - bearerAuth: []
  *     responses:
  *       200:
  *         description: array of comments
  *         content:
  *           application/json:
  *             schema:
- *                type: array
- *                items:
- *                  $ref: "#/components/schemas/comment"
- *       400:
- *         description: Invalid credentials
- *       403:
+ *               oneOf:
+ *                 - type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/comment"
+ *                 - type: object
+ *                   properties:
+ *                     count:
+ *                       type: integer
+ *       401:
  *         description: Invalid credentials
  */
 router.get('/', commentController.getComments);
@@ -48,12 +56,13 @@ router.get('/', commentController.getComments);
  *     summary: get comment
  *     description: get one comments. /api/comments/64f5b3c7e4b08c1234567890
  *     parameters:
- *      - in: path
- *       name: id
- *       required
- *       schema:
- *         type: string
- *
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: one comment
@@ -62,11 +71,11 @@ router.get('/', commentController.getComments);
  *             schema:
  *                $ref: "#/components/schemas/Comment"
  *       400:
- *         description: Invalid credentials - no token
- *       403:
+ *         description: missing parameters
+ *       401:
  *         description: Invalid credentials - invalid token
  *       404:
- *        description: comment not found with the given id
+ *         description: comment not found with the given id
  */
 router.get('/:id', commentController.getCommentById);
 
@@ -78,20 +87,21 @@ router.get('/:id', commentController.getCommentById);
  *     description: delete one comments. /api/comments/64f5b3c7e4b08c1234567890
  *     parameters:
  *      - in: path
- *       name: id
- *       required: true
- *      schema:
- *         type: string
- *
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: string
+ *     security:
+ *        - bearerAuth: []
  *     responses:
  *       200:
  *         description: deleted comment
  *       400:
- *         description: Invalid credentials - no token
- *       403:
+ *         description: Invalid parameter
+ *       401:
  *         description: Invalid credentials - invalid token
  *       404:
- *        description: comment not found with the given id
+ *         description: comment not found with the given id
  */
 router.delete('/:id', commentController.deleteComment);
 
@@ -100,18 +110,20 @@ router.delete('/:id', commentController.deleteComment);
  * /api/comments:
  *   post:
  *     summary: update comment
- *     description:update comment for a post
-  *    parameters:
- *      - in: path
- *       name: id
- *      schema:
- *         type: string
+ *     description: update comment for a post
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *              $ref: "#/components/schemas/Comment"
+ *     security:
+ *        - bearerAuth: []
  *     responses:
  *       200:
  *         description: Successfully updated comment
@@ -120,10 +132,10 @@ router.delete('/:id', commentController.deleteComment);
  *             schema:
  *                 $ref: "#/components/schemas/Comment"
  *       400:
- *         description: Invalid credentials
+ *         description: Invalid parameter
  *       404:
  *         description: comment was not found
- *       403:
+ *       401:
  *         description: Invalid credentials - invalid token
  */
 router.put('/:id', commentController.updateComment);
@@ -131,26 +143,28 @@ router.put('/:id', commentController.updateComment);
 /**
  * @swagger
  * /api/comments:
- *   post:
- *     summary: create comment
- *     description:create comment for a post
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
+ *  post:
+ *    summary: create comment
+ *    description: create comment for a post
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: "#/components/schemas/Comment"
+ *    security:
+ *      - bearerAuth: []
+ *    responses:
+ *      200:
+ *        description: Successfully created a comment
+ *        content:
+ *          application/json:
+ *            schema:
  *              $ref: "#/components/schemas/Comment"
- *     responses:
- *       200:
- *         description: Successfully created a comment
- *         content:
- *           application/json:
- *             schema:
- *                 $ref: "#/components/schemas/Comment"
- *       400:
- *         description: Invalid credentials
- *       403:
- *         description: Invalid credentials - invalid token
+ *      400:
+ *        description: Invalid parameters
+ *      401:
+ *        description: Invalid credentials - invalid token
  */
 router.post('/', commentController.addComment);
 
