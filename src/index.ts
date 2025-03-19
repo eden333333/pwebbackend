@@ -15,8 +15,8 @@ dotenv.config();
 
 
 const app = express();
-const uri = 'mongodb://localhost:27017/rishon_lezion';
-mongoose.connect(uri, ).then(() => {}
+
+mongoose.connect(process.env.MONGO_URI, ).then(() => {}
 ).catch((error) => console.log(error));
 
 app.use(cors());
@@ -30,6 +30,6 @@ app.use('/api/users', validateToken, userRoute);
 app.use('/api/posts', validateToken,postRoute);
 app.use('/api/comments',validateToken, commentRoute);
 
-app.listen(5000, () => {
+app.listen(process.env.PORT, () => {
     console.log('Server is running on port 5000');
 });

@@ -80,9 +80,10 @@ const login = async (req, res) => {
         }
         else{
             const token = jsonwebtoken.sign({ email:user.email, id:user._id},process.env.JWT_SECRET , {expiresIn: "3h"});
+            const refreshToken = jsonwebtoken.sign({ email:user.email, id:user._id},process.env.REFRESH_TOKEN , {expiresIn: "3d"});
             const {password, ...userToReact} = user.toObject();
             
-            return res.json({user: userToReact, token});
+            return res.json({user: userToReact, token, refreshToken});
         }
        
     } catch (error) {
@@ -90,4 +91,25 @@ const login = async (req, res) => {
     }
 };
 
-export default { getUsers, getUserById, deleteUser, updateUser, addUser, login };
+const refreshToken = (req, res) => {
+    const {refreshToken} = req.body;
+
+    if(!refreshToken){
+        return res.status(401)
+    }
+    try{
+
+        jsonwebtoken.verify(refreshToken, process.env.REFRESH_TOKEN, (err, decoded) => {
+            if(err){
+                return res.status(401);
+            }
+            const token = jsonwebtoken.sign({ email:decoded.email, id:decoded._id},process.env.JWT_SECRET , {expiresIn: "3h"});
+            return res.json({token: token});
+        });
+    }catch(err){
+        return res.status(401);
+    }
+
+}
+
+export default { getUsers, getUserById, deleteUser, updateUser, addUser, login, refreshToken };

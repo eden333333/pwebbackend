@@ -63,6 +63,20 @@ const options = {
                         user: { type: "string", example: "64f5b3c7e4b08c1234567890" },
                         likes: { type: "array", items: { type: "string" }, example: ["64f5b3c7e4b08c1234567890"] },
                     }
+                },
+                RefreshToken:{
+                    type: "object",
+                    required: ["refreshToken"],
+                    properties:{
+                        refreshToken:{type: 'string', example:'abc123abc234abc123'}
+                    }
+                },
+                Token:{
+                    type: "object",
+                    required: ["token"],
+                    properties:{
+                        token:{type: 'string', example:'abc123abc234abc123'}
+                    }
                 }
 
             },
