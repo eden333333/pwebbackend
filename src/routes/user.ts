@@ -10,7 +10,7 @@ const router = express.Router();
  * /api/users:
  *   get:
  *     tags:
- *       - name: Users
+ *       - Users
  *     summary: get users 
  *     description: get all users. /api/users
  *     security:
@@ -19,30 +19,32 @@ const router = express.Router();
  *       200:
  *         description: array of users
  *         content:
- *         application/json:
- *           schema:
- *             type: array
- *             items:
- *               $ref: "#/components/schemas/user"
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/user"
  */
 router.get('/', userController.getUsers);
 
 /**
  * @swagger
  * /api/user/{id}:
- *  get:
- *    summary: get user
- *    description: get one user. /api/users/64f5b3c7e4b08c1234567890
- *    parameters:
- *      - in: path
- *        name: id
- *        required: true
- *        schema:
- *          type: string
- *        description: The ID of the user to retrieve.
- *    security:
- *      - bearerAuth: []
- * 
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: get user
+ *     description: get one user. /api/users/64f5b3c7e4b08c1234567890
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user to retrieve.
+ *     security:
+ *       - bearerAuth: []
+ *  
  *     responses:
  *       200:
  *         description: one user
@@ -61,8 +63,10 @@ router.get('/:id', userController.getUserById);
 
  /**
  * @swagger
- * /api/user/id:
+ * /api/user/{id}:
  *   delete:
+ *     tags:
+ *       - Users
  *     summary: delete user
  *     description: user one user. /api/user/64f5b3c7e4b08c1234567890
  *     parameters:
@@ -89,21 +93,23 @@ router.delete('/:id', userController.deleteUser);
  * @swagger
  * /api/posts:
  *  post:
+ *    tags:
+ *      - Users
  *    summary: create post
  *    description: create post for a user
  *    requestBody:
  *      required: true
  *      content:
  *        multipart/form-data:
- *        schema:
- *          type: object
- *          properties:
- *            post:
- *              $ref: "#/components/schemas/user" 
- *            image:
- *              type: string
- *              format: binary
- *              description: profile picture.
+ *          schema:
+ *            type: object
+ *            properties:
+ *              post:
+ *                $ref: "#/components/schemas/user" 
+ *              image:
+ *                type: string
+ *                format: binary
+ *                description: profile picture.
  *    security:
  *      - bearerAuth: []
  *    responses:
