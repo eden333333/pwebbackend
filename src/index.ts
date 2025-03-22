@@ -8,28 +8,53 @@ import commentRoute from './routes/comment';
 import authRoute from './routes/auth';
 import validateToken from './middleware/validateToken';
 import path from 'path';
+dotenv.config();
 import {addSwagger} from './middleware/swagger-configuration';
 
 
-dotenv.config();
 
 
 const app = express();
 
-mongoose.connect(process.env.MONGO_URI, ).then(() => {}
-).catch((error) => console.log(error));
+// mongoose.connect(process.env.MONGO_URI, ).then(() => {}
+// ).catch((error) => console.log(error));
 
 app.use(cors());
 app.use(express.json());
 
 const uploadDir = path.join(process.cwd(), 'uploads');
 app.use('/uploads', express.static(uploadDir));
+app.use(express.static(path.join('public', 'dist')))
 addSwagger(app);
 app.use('/api/auth', authRoute);
 app.use('/api/users', validateToken, userRoute);
 app.use('/api/posts', validateToken,postRoute);
 app.use('/api/comments',validateToken, commentRoute);
 
-app.listen(process.env.PORT, () => {
-    console.log('Server is running on port 5000');
+
+
+// const tmpFunc = async() =>{
+
+// }
+
+// app.listen(process.env.PORT, () => {
+//     console.log('Server is running on port ' + process.env.PORT);
+// });
+
+export const devAppInit = ()=>{
+    app.listen(process.env.PORT, () => {
+    console.log('Server is running on port ' + process.env.PORT);
 });
+}
+const initApp = async() => {
+    try{
+        
+        await mongoose.connect(process.env.MONGO_URI, );
+        return app;
+        
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export default initApp;

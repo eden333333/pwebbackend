@@ -27,28 +27,27 @@ const router = express.Router();
  *         description: Invalid credentials
  */
 router.post('/login', userController.login);
-
 /**
  * @swagger
  * /api/auth/register:
  *   post:
  *     tags:
  *       - Authentication
- *     summary: register to the application
+ *     summary: Register to the application
  *     description: Authenticate a user and return a token.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *              $ref: "#/components/schemas/User"
+ *             $ref: "#/components/schemas/User"
  *     responses:
  *       201:
  *         description: Successfully logged in
  *         content:
  *           application/json:
- *           schema:
- *              $ref: "#/components/schemas/User"
+ *             schema:
+ *               $ref: "#/components/schemas/User"
  *       400:
  *         description: Invalid credentials
  */

@@ -1,4 +1,11 @@
 node_modules
 dist
 .env
+.env_dev
+.env_prod
 uploads/*
+client-cert.pem
+client.csr
+client-key.pem
+infra.txt
+

@@ -1,6 +1,7 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
+console.log(process.env.DOMAIN_BASE+":"+process.env.PORT)
 const options = {
     definition: {
         openapi: "3.0.0",
@@ -10,7 +11,7 @@ const options = {
             description: "A complex express library for vacations posts"
         },
         servers: [
-            { url: "http://localhost:5000" }
+            { url: process.env.DOMAIN_BASE+":"+process.env.PORT }
         ],
         components: {
             securitySchemas:{
