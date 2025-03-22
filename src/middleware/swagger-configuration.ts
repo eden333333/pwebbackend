@@ -11,7 +11,9 @@ const options = {
             description: "A complex express library for vacations posts"
         },
         servers: [
-            { url: process.env.DOMAIN_BASE+":"+process.env.PORT }
+            { url: process.env.DOMAIN_BASE+":"+process.env.PORT },
+            {url: 'http://10.10.246.131'},
+            {url: 'https://10.10.246.131'},
         ],
         components: {
             securitySchemas:{
